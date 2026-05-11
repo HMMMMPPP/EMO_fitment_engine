@@ -1,36 +1,37 @@
-# Emotion Fitment Engine
+# EMO Fitment Engine
 
-Vehicle-to-tire/rim fitment lookup tool for client Emotion (Llantas & Autopartes).
+Branded landing page for **Emotion — Más que llantas y rines** that embeds the vehicle fitment lookup form.
 
-## Status
-Production-ready — pending Coolify deploy.
+**Live:** `fitmentengine.eco.car-ismatrade.com`
+
+---
 
 ## Stack
-nginx:alpine serving static HTML + Formbricks iframe embed
 
-## Domain
-`fitmentengine.eco.car-ismatrade.com`
-
-## Purpose
-Landing page embedding the Emotion Formbricks fitment survey at:
-`https://surveys.arellanoglobal.cloud/s/cml9hvdx1000dqm0169179rvo`
+- **Serving:** nginx:alpine (static)
+- **Form:** Formbricks iframe embed (hosted on `surveys.arellanoglobal.cloud`)
+- **Deployment:** Coolify v4 + Traefik (SSL via Let's Encrypt)
 
 ## Deploy (Coolify)
-1. Create new Docker Compose resource in Coolify
-2. Build context: `deployments/emotion-fitment-engine/`
-3. Compose file: `docker-compose.coolify.yml`
-4. Set domain: `fitmentengine.eco.car-ismatrade.com`
-5. Ensure DNS A record points to AG server IP before deploy
-6. Deploy — Traefik handles SSL via Let's Encrypt automatically
 
-## Client
-Emotion (EMO tenant prefix) | `#emotion-errors` Discord channel
+1. New Resource → Docker Compose
+2. Source: this repo, branch `main`
+3. Compose file: `docker-compose.coolify.yml`
+4. Domain: `fitmentengine.eco.car-ismatrade.com`
+5. Deploy — no env vars or secrets required
+
+> DNS A record for the domain must point to the AG server before deploying.
 
 ## Files
+
 | File | Purpose |
 |------|---------|
 | `index.html` | Main page — Emotion branding + Formbricks iframe |
-| `logo-emotion.svg` | SVG logo used in header |
+| `logo-emotion.svg` | Header logo |
 | `emotion-logo.jpeg` | Favicon |
-| `Dockerfile` | nginx:alpine static serve |
+| `Dockerfile` | nginx:alpine static server |
 | `docker-compose.coolify.yml` | Coolify production compose with Traefik labels |
+
+---
+
+Powered by [Arellano Global](https://arellanoglobal.org)
