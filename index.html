@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion - Fitment Engine</title>
+    <link rel="icon" href="emotion-logo.jpeg" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: #ffffff;
+            padding: 8px 0;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .top-banner p {
+            margin: 0;
+            padding-right: 40px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .logo-container {
+            background-color: #ffffff00;
+            padding: 20px 40px;
+            border-radius: 0 0 50px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container img {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff6600;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .logo-text .tagline {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .header-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .form-header .highlight {
+            color: #ff6600;
+            font-weight: bold;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Iframe Container */
+        .iframe-container {
+            width: 100%;
+            height: 600px;
+            max-height: 80vh;
+            border: none;
+            background-color: #fafafa;
+            border-radius: 10px;
+            overflow: auto;
+            position: relative;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        footer .contact-info {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .logo-container {
+                border-radius: 0 0 30px 30px;
+                padding: 15px 30px;
+            }
+
+            .logo-container img {
+                height: 45px;
+            }
+
+            .logo-text .brand {
+                font-size: 24px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-content {
+                padding: 0 20px;
+                margin: 20px auto;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+
+            .form-header h1 {
+                font-size: 24px;
+            }
+        }
+
+        /* Loading animation for iframe */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            color: #ff6600;
+            font-size: 18px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #fafafa;
+            border-radius: 10px;
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            margin-left: 15px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6600;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo-emotion.svg" alt="Emotion Logo">
+                
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>¡<span class="highlight">Ingresa</span> tus datos!</h1>
+                <p>Estamos aquí para ayudarte. Por favor completa la información a continuación.</p>
+            </div>
+            
+            <!-- Iframe Container for Formbricks -->
+            <div class="iframe-container">
+                <!-- Replace the src with your actual Formbricks form URL -->
+                <iframe
+                    id="formbricks-iframe"
+                    src="https://surveys.arellanoglobal.cloud/s/cml9hvdx1000dqm0169179rvo">
+                </iframe>
+                <!-- Loading placeholder (will be hidden once iframe loads) -->
+                <div class="loading" id="loading">Cargando fitment engine</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 <a href="https://llantasemotion.cr/" style="color: white; text-decoration: none; font-weight: bold;">Emotion - Más que llantas y rines</a></p>
+        <p class="contact-info" style="margin-top: 10px; font-size: 14px; font-weight: normal;">Powered by <a href="https://arellanoglobal.org/" style="color: white; text-decoration: none; font-weight: 600;">Arellano Global</a></p>
+    </footer>
+
+    <script>
+        // Hide loading indicator once iframe loads
+        const iframe = document.getElementById('formbricks-iframe');
+        const loading = document.getElementById('loading');
+        
+        iframe.onload = function() {
+            loading.style.display = 'none';
+        };
+
+        // Auto-resize iframe based on content (if Formbricks supports postMessage)
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'resize') {
+                iframe.style.height = e.data.height + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

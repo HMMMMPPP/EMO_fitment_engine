@@ -1,0 +1,50 @@
+# PRODUCTION COOLIFY DEPLOY — use this file
+# =============================================================================
+# emotion-fitment-engine — Docker Compose (Coolify v4 PRODUCTION deployment)
+# Service: Emotion — vehicle fitment lookup (static HTML + Formbricks iframe)
+# Domain:  fitmentengine.eco.car-ismatrade.com
+# Port:    80 (internal nginx; Traefik routes HTTPS → container:80)
+# Stateless: no volumes, no env vars — pure static site.
+#
+# COOLIFY USAGE:
+#   Resource type: Docker Compose
+#   Build context: deployments/emotion-fitment-engine/
+#   Compose file:  deployments/emotion-fitment-engine/docker-compose.coolify.yml
+#   Domain:        fitmentengine.eco.car-ismatrade.com
+# =============================================================================
+
+version: "3.8"
+
+services:
+  emotion-fitment-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: emotion-fitment-engine
+
+    networks:
+      - traefik-public
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    mem_limit: 64m
+    cpus: '0.10'
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.emotion-fitment-engine.loadbalancer.server.port=80"
+      - "traefik.http.routers.emotion-fitment-engine.rule=Host(`fitmentengine.eco.car-ismatrade.com`)"
+      - "traefik.http.routers.emotion-fitment-engine.entrypoints=https"
+      - "traefik.http.routers.emotion-fitment-engine.tls=true"
+      - "traefik.http.routers.emotion-fitment-engine.tls.certresolver=letsencrypt"
+
+networks:
+  traefik-public:
+    external: true
